@@ -1,0 +1,167 @@
+﻿@page
+@model Fresh_Farm_Market.Pages.RegisterModel
+@{
+}
+@section scripts {
+	<script type="text/javascript">
+		function validatePwd() {
+			var str = document.getElementById('id_pwd').value;
+
+			if (str.length < 12) {
+				document.getElementById('pwd_checker').innerHTML = "Password Length must be at least 12 characters";
+				document.getElementById('pwd_checker').style.color = "Red";
+				return ("too short");
+			}
+			else if (str.search(/[0-9]/) == -1) {
+				document.getElementById("pwd_checker").innerHTML = "Password requires at least 1 number";
+				document.getElementById("pwd_checker").style.color = "Red";
+				return ("no number"); 
+			}
+			else if (str.search(/[a-z]/) == -1) {
+				document.getElementById("pwd_checker").innerHTML = "Password requires at least 1 lower case character";
+				document.getElementById("pwd_checker").style.color = "Red";
+				return ("no lower case");
+			}
+			else if (str.search(/[A-Z]/) == -1) {
+				document.getElementById("pwd_checker").innerHTML = "Password requires at least 1 upper case character";
+				document.getElementById("pwd_checker").style.color = "Red";
+				return ("no upper case");
+			}
+			else if (str.search(/[^a-zA-Z0-9]/) == -1) {
+				document.getElementById("pwd_checker").innerHTML = "Password requires at least 1 special character";
+				document.getElementById("pwd_checker").style.color = "Red";
+				return ("no special characters");
+			}
+
+			document.getElementById('pwd_checker').innerHTML = "Strong password!";
+			document.getElementById('pwd_checker').style.color = "Blue";
+		}
+
+		function matchPwd() {
+			var pwd = document.getElementById('id_pwd').value;
+			var cfm_pwd = document.getElementById('id_cfm_pwd').value;
+
+			if (pwd.trim() != cfm_pwd.trim()) {
+				document.getElementById('cfm_pwd_checker').innerHTML = "Passwords do not match";
+				document.getElementById("cfm_pwd_checker").style.color = "Red";
+				return ("passwords do not match");
+			}
+
+			document.getElementById('cfm_pwd_checker').innerHTML = "Passwords match";
+			document.getElementById("cfm_pwd_checker").style.color = "Blue";
+		}
+
+		function validateEmail() {
+			var email = document.getElementById('id_email').value;
+
+			if (email.search(/^[\w-.]*@@[\w-.]*(.com)$/) == -1) {
+				document.getElementById('email_checker').innerHTML = "Please enter a valid email address";
+				document.getElementById("email_checker").style.color = "Red";
+				return ("invalid email address");
+			}
+
+			document.getElementById('email_checker').innerHTML = "Valid!";
+			document.getElementById("email_checker").style.color = "Blue";
+		}
+
+		function validateMobile() {
+			var mobile = document.getElementById('id_mobile').value;
+
+			if (mobile.search(/[0-9]/) == -1) {
+				document.getElementById('mobile_checker').innerHTML = "Mobile number should only contain numbers";
+				document.getElementById("mobile_checker").style.color = "Red";
+				return ("not only numbers");
+			}
+			else if (mobile.search(/^[896][0-9]{7}$/) == -1) {
+				document.getElementById('mobile_checker').innerHTML = "Please enter a valid mobile number";
+				document.getElementById('mobile_checker').style.color = "Red";
+				return ("invalid mobile number");
+			}
+
+			document.getElementById('mobile_checker').innerHTML = "Valid!";
+			document.getElementById("mobile_checker").style.color = "Blue";
+		}
+	</script>
+}
+
+<div class="container mt-5">
+
+	<div class="row justify-content-center align-items-center">
+
+		<div class="col-sm-12 col-md-12 col-lg-4">
+			<h1 class="mb-3">Register </h1>
+
+			<form method="post" asp-antiforgery="true">
+				<div asp-validation-summary="All" class="text-danger"></div>
+
+				<div class="mb-3">
+					<label class="form-label" asp-for="RModel.Name">Full Name</label>
+					<input type="Text" asp-for="RModel.Name" class="form-control" />
+					<span asp-validaton-for="RModel.Name" class="text-danger"></span>
+				</div>
+
+				<div class="mb-3">
+					<label class="form-label" asp-for="RModel.CreditCardNo">Credit Card No</label>
+					<input type="number" asp-for="RModel.CreditCardNo" class="form-control" />
+					<span asp-validaton-for="RModel.CreditCardNo" class="text-danger"></span>
+				</div>
+
+				<div class="mb-3">
+					<label class="form-label" asp-for="RModel.Gender">Gender</label>
+					<input type="Text" asp-for="RModel.Gender" class="form-control" />
+					<span asp-validaton-for="RModel.Gender" class="text-danger"></span>
+				</div>
+
+				<div class="mb-3">
+					<label class="form-label" asp-for="RModel.MobileNo">Mobile No</label>
+					<input type="tel" asp-for="RModel.MobileNo" class="form-control" id="id_mobile" onkeyup="validateMobile()" />
+					<span asp-validaton-for="RModel.MobileNo" class="text-danger"></span>
+					<small id="mobile_checker"></small>
+				</div>
+
+				<div class="mb-3">
+					<label class="form-label" asp-for="RModel.DeliveryAddress">Delivery Address</label>
+					<input type="text" asp-for="RModel.DeliveryAddress" class="form-control" />
+					<span asp-validaton-for="RModel.DeliveryAddress" class="text-danger"></span>
+				</div>
+
+				<div class="mb-3">
+					<label class="form-label" asp-for="RModel.Email">Email Address</label>
+					<input type="Text" asp-for="RModel.Email" class="form-control" id="id_email" onkeyup="validateEmail()" />
+					<span asp-validaton-for="RModel.Email" class="text-danger"></span>
+					<small id="email_checker"></small>
+				</div>
+
+				<div class="mb-3">
+					<label class="form-label" asp-for="RModel.Password">Password</label>
+					<input type="Text" asp-for="RModel.Password" class="form-control" id="id_pwd" onkeyup="validatePwd()" />
+					<span asp-validaton-for="RModel.Password" class="text-danger"></span>
+					<small id="pwd_checker"></small>
+				</div>
+
+				<div class="mb-3">
+					<label class="form-label" asp-for="RModel.ConfirmPassword">Confirm Password</label>
+					<input type="Text" asp-for="RModel.ConfirmPassword" class="form-control" id="id_cfm_pwd" onkeyup="matchPwd()" />
+					<span asp-validaton-for="RModel.ConfirmPassword" class="text-danger"></span>
+					<small id="cfm_pwd_checker"></small>
+				</div>
+
+				<div class="mb-3">
+					<label class="form-label" asp-for="RModel.Photo">Photo</label>
+					<input type="file" asp-for="RModel.Photo" class="form-control" />
+					<span asp-validaton-for="RModel.Photo" class="text-danger"></span>
+				</div>
+
+				<div class="mb-3">
+					<label class="form-label" asp-for="RModel.AboutMe">About Me</label>
+					<input type="text" asp-for="RModel.AboutMe" class="form-control" />
+					<span asp-validaton-for="RModel.AboutMe" class="text-danger"></span>
+				</div>
+
+				<div class="mb-3">
+					<button type="submit" class="btn btn-primary">Register</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>

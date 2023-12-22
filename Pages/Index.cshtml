@@ -1,0 +1,24 @@
+﻿@page
+@inject IHttpContextAccessor contxt;
+@using System.Data;
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+@section scripts {
+    <script type="text/javascript">
+        if (contxt.HttpContext.Session.GetString("Name") == null || contxt.HttpContext.Session.GetString("Name") == "") {
+            window.location.href = "/Login";
+        }
+    </script>
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+
+    <div class="mb-3">
+        <label>Email: </label>
+        <span>@contxt.HttpContext.Session.GetString("Email")</span>
+    </div>
+</div>
